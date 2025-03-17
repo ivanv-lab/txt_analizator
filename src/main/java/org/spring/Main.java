@@ -3,10 +3,7 @@ package org.spring;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +15,7 @@ public class Main {
         int wordCount=0;
         int charCount=0;
         Map<String, Integer> wordMap= new HashMap<>();
+        //Set<String> wordMap=new HashSet<>();
 
         try(BufferedReader reader=new BufferedReader(
                 new FileReader(filePath))){
@@ -44,17 +42,30 @@ public class Main {
                     modLine=modLine.substring(0,modLine.length()-1);
                 }
 
+                int pred=0;
                 for(int i=0;i<modLine.length();i++){
+                    String word = "";
                     if(modLine.charAt(i)==' '){
-                        String removedModLine=modLine.substring(0,i+1);
-                        if(wordMap.containsKey(removedModLine)){
-                            //wordMap.va
-                        }
-                        wordMap.put(removedModLine,0);
+                        word=modLine.substring(pred,i).trim();
+                        pred=i;
+                    }
+                    else if(i==modLine.length()-1){
+                        word=modLine.substring(pred,modLine.length()).trim();
+                    }
+                    else continue;
+
+                    //Слово выделить удалось, теперь надо грамотно его запихивать в Мапу или любую другую коллекцию
+                    if(!wordMap.containsKey(word)){
+                        wordMap.put(word,0);
+                    }
+                    else if(wordMap.containsKey(word)){
+                        int val=wordMap.get(word);
+                        wordMap.remove(word);
+                        val++;
+                        wordMap.put(word,val);
                     }
                 }
             }
-
 
             System.out.println("\n Число строк = "+lineCount);
             System.out.println("\n Число слов = "+wordCount);
@@ -64,7 +75,11 @@ public class Main {
              * 1) Изучить работу Java HashMap и постараться что-то сделать с ней
              * 2) Реализовать свою коллекцию с нужной функцией(возможно удобнее
              * в использовании, но дольше в реализации)
-             */
+             ***/
+            List<Integer> values=wordMap.values().stream().toList();
+            int maxValue= Collections.max(values);
+            //ВОт прям чуть чуть доделать. Можно циклом пройтись, но это ебля
+            String maxKey=wordMap.
             System.out.println("\n Самое часто повторяющееся слово = ");
 
             long endTime=System.currentTimeMillis();
