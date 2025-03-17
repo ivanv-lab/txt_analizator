@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
     public static void main(String[] args) {
@@ -78,9 +79,12 @@ public class Main {
              ***/
             List<Integer> values=wordMap.values().stream().toList();
             int maxValue= Collections.max(values);
-            //ВОт прям чуть чуть доделать. Можно циклом пройтись, но это ебля
-            String maxKey=wordMap.
-            System.out.println("\n Самое часто повторяющееся слово = ");
+            System.out.print("\n Самое часто повторяющееся слово = ");
+            wordMap.forEach((s, integer) -> {
+                if(integer==maxValue){
+                    System.out.println(s);
+                }
+            });
 
             long endTime=System.currentTimeMillis();
             long timeElapsed=endTime-startTime;
